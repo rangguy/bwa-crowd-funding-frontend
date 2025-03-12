@@ -1,5 +1,11 @@
+<script setup>
+definePageMeta({
+  layout: false, // Supaya layout default tidak digunakan
+});
+</script>
+
 <template>
-  <div>
+  <NuxtLayout>
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>

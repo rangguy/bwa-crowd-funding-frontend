@@ -27,14 +27,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: ["error"],
+<script setup>
+defineProps(["error"]);
+definePageMeta({
   layout: "success",
-};
+});
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 .auth-background {
   background-image: url("/sign-in-background.jpg");
   background-position: center;

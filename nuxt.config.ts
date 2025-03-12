@@ -6,6 +6,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   app: {
     head: {
+      title:"Crowd Funding App",
       link: [
         { rel: "preconnect", href: "https://fonts.googleapis.com" },
         {

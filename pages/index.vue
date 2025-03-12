@@ -1,7 +1,3 @@
-<script>
-import "@/assets/css/tailwind.css";
-</script>
-
 <template>
   <div class="landing-page">
     <section class="landing-hero pt-5 px-20">
@@ -32,7 +28,7 @@ import "@/assets/css/tailwind.css";
         </div>
       </div>
     </section>
-    <section class="container mx-auto pt-24 px-20">
+    <section class="container mx-auto pt-24 px-20 m-20">
       <div class="flex justify-between items-center mb-10">
         <div class="w-auto">
           <h2 class="text-3xl text-gray-900 mb-8">
@@ -132,12 +128,12 @@ import "@/assets/css/tailwind.css";
                 <div class="ml-auto font-semibold">Rp 100.000.000</div>
               </div>
             </div>
-            <a
-              href="/projects.html"
+            <nuxt-link
+              to="/projects/1"
               class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
             >
               Fund Now
-            </a>
+            </nuxt-link>
           </div>
         </div>
         <div
@@ -172,12 +168,12 @@ import "@/assets/css/tailwind.css";
                 <div>45%</div>
                 <div class="ml-auto font-semibold">Rp 80.000.000</div>
               </div>
-              <a
-                href="/projects.html"
+              <nuxt-link
+                to="/projects/2"
                 class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
               >
                 Fund Now
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -211,12 +207,12 @@ import "@/assets/css/tailwind.css";
                 <div>80%</div>
                 <div class="ml-auto font-semibold">Rp 40.000.000</div>
               </div>
-              <a
-                href="/projects.html"
+              <nuxt-link
+                to="/projects/3"
                 class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
               >
                 Fund Now
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -254,12 +250,12 @@ import "@/assets/css/tailwind.css";
                 <div>45%</div>
                 <div class="ml-auto font-semibold">Rp 55.000.000</div>
               </div>
-              <a
-                href="/projects.html"
+              <nuxt-link
+                href="/projects/4"
                 class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
               >
                 Fund Now
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -295,12 +291,12 @@ import "@/assets/css/tailwind.css";
                 <div>70%</div>
                 <div class="ml-auto font-semibold">Rp 75.000.000</div>
               </div>
-              <a
-                href="/projects.html"
+              <nuxt-link
+                href="/projects/5"
                 class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
               >
                 Fund Now
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -336,12 +332,12 @@ import "@/assets/css/tailwind.css";
                 <div>10%</div>
                 <div class="ml-auto font-semibold">Rp 35.000.000</div>
               </div>
-              <a
-                href="/projects.html"
+              <nuxt-link
+                href="/projects/6"
                 class="text-center mt-5 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-2 text-lg rounded-full"
               >
                 Fund Now
-              </a>
+              </nuxt-link>
             </div>
           </div>
         </div>
@@ -393,23 +389,7 @@ import "@/assets/css/tailwind.css";
       </div>
     </section>
     <div class="cta-clip -mt-20"></div>
-    <section class="call-to-action bg-purple-progress pt-64 pb-10">
-      <div class="container mx-auto">
-        <div class="w-full text-center">
-          <h1 class="text-5xl text-white font-semibold">
-            Easy way to funding
-            <br />
-            best idea and innovation
-          </h1>
-          <button
-            @click="$router.push({ path: '/upload' })"
-            class="inline-block bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-4 mt-8 text-lg rounded-full"
-          >
-            Getting Start
-          </button>
-        </div>
-      </div>
-    </section>
+    <CallToAction />
     <Footer />
   </div>
 </template>
