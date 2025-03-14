@@ -31,7 +31,7 @@
       </div>
       <hr />
       <div class="block mb-2">
-        <div class="w-full lg:max-w-full lg:flex mb-4">
+        <div class="w-full lg:max-w-full lg:flex mb-4" v-for="i in 5" :key="i">
           <div
             class="h-48 lg:h-auto lg:w-48 flex-none bg-cover rounded-t lg:rounded-t-none lg:rounded-l text-center overflow-hidden"
             style="background-color: #bbb"
