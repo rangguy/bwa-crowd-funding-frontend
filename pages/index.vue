@@ -220,5 +220,5 @@ const getImageUrl = (imagePath) => {
 };
 
 // Debugging
-console.log("Campaigns:", campaigns.value.data[0].image_url);
+// console.log("Campaigns:", campaigns.value.data[0].image_url);
 </script>
