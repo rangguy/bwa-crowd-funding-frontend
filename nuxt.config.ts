@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     },
   },
   auth: {
+    originEnvKey: "NUXT_BASE_URL",
     provider: {
       type: "local",
       endpoints: {
@@ -37,9 +38,12 @@ export default defineNuxtConfig({
         getSession: { path: "/api/v1/users/fetch", method: "get" },
       },
       token: {
-        signInResponseTokenPointer: "data.token",
+        signInResponseTokenPointer: "/data/token",
         type: "Bearer",
         headerName: "Authorization",
+      },
+      session: {
+        dataResponsePointer: "/data",
       },
       pages: {
         login: "/login",

@@ -14,22 +14,22 @@
               <a class="text-gray-800 font-bold" href="#"> Your Projects </a>
             </li>
             <li class="mr-6">
-              <nuxt-link
+              <NuxtLink
                 class="text-gray-500 hover:text-gray-800"
                 to="/dashboard/transactions"
               >
                 Your Transactions
-              </nuxt-link>
+              </NuxtLink>
             </li>
           </ul>
         </div>
         <div class="w-1/4 text-right">
-          <nuxt-link
+          <NuxtLink
             to="/dashboard/create"
             class="bg-orange-button hover:bg-green-button text-white font-bold py-4 px-4 rounded inline-flex items-center"
           >
             + Create Campaign
-          </nuxt-link>
+          </NuxtLink>
         </div>
       </div>
       <hr />
@@ -59,12 +59,12 @@
               </p>
             </div>
             <div class="flex items-center">
-              <nuxt-link
+              <NuxtLink
                 :to="'/dashboard/projects/' + i"
                 class="bg-green-button text-white py-2 px-4 rounded"
               >
                 Detail
-              </nuxt-link>
+              </NuxtLink>
             </div>
           </div>
         </div>

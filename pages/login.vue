@@ -57,9 +57,9 @@
         <div class="text-center">
           <p class="text-white text-md">
             Don't have an account?
-            <nuxt-link href="/register" class="no-underline text-orange-button">
+            <NuxtLink href="/register" class="no-underline text-orange-button">
               Sign Up
-            </nuxt-link>
+            </NuxtLink>
           </p>
         </div>
       </div>
@@ -72,12 +72,12 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { useRuntimeConfig } from "#imports";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 definePageMeta({
   layout: "auth",
 });
 
-const router = useRouter();
 const config = useRuntimeConfig();
 
 const email = ref("");
@@ -85,18 +85,23 @@ const password = ref("");
 
 const userLogin = async () => {
   try {
-    const response = await $fetch(`${config.public.apiBase}/api/v1/sessions`, {
-      method: "POST",
-      body: {
+    const response = await axios.post(
+      `${config.public.apiBase}/api/v1/sessions`,
+      {
         email: email.value,
         password: password.value,
-      },
-    });
+      }
+    );
 
-    console.log("Login Response:", response);
+    console.log("Login API URL:", `${config.public.apiBase}/api/v1/sessions`);
+    console.log("Login Response:", response.data);
 
-    if (response.data?.token) {
-      localStorage.setItem("auth_token", response.data.token);
+    const token = response.data?.data?.token;
+
+    if (token) {
+      // Step 2: Store the token in localStorage
+      localStorage.setItem("auth_token", token);
+      console.log("Token berhasil disimpan:", token);
 
       Swal.fire({
         icon: "success",
@@ -109,23 +114,16 @@ const userLogin = async () => {
         timerProgressBar: true,
       });
 
-      router.push("/");
+      navigateTo("/");
+      console.log("Navigasi ke halaman utama");
     } else {
-      Swal.fire({
-        icon: "error",
-        title: "Login Failed",
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
+      throw new Error("Invalid login response. Token not found.");
     }
   } catch (error) {
     console.error("Login Error:", error);
 
     let errorMessage =
-      error?.data?.data?.errors ||
+      error?.response?.data?.errors ||
       "Login failed. Please check your credentials and try again.";
 
     Swal.fire({

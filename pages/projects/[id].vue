@@ -97,12 +97,12 @@
               placeholder="Amount in Rp"
               value=""
             />
-            <nuxt-link
+            <NuxtLink
               to="/fund-success"
               class="text-center mt-3 button-cta block w-full bg-orange-button hover:bg-green-button text-white font-medium px-6 py-3 text-md rounded-full"
             >
               Fund Now
-            </nuxt-link>
+            </NuxtLink>
           </div>
         </div>
       </div>

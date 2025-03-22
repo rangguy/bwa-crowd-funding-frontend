@@ -16,12 +16,12 @@
           <h3 class="text-2xl text-gray-900 mb-4">Create New Projects</h3>
         </div>
         <div class="w-1/4 text-right">
-          <nuxt-link
+          <NuxtLink
             to="/dashboard/detail"
             class="bg-green-button hover:bg-green-button text-white font-bold px-4 py-1 rounded inline-flex items-center"
           >
             Save
-          </nuxt-link>
+          </NuxtLink>
         </div>
       </div>
       <div class="block mb-2">
