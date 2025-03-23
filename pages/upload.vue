@@ -12,7 +12,7 @@ const config = useRuntimeConfig();
 const isAuthenticated = ref(false);
 const userData = ref(null);
 const loading = ref(true);
-const avatarUrl = ref("/avatar.jpg"); // Default avatar
+const avatarUrl = ref("/avatar.jpg");
 const fileInput = ref(null);
 const selectedFile = ref(null);
 
@@ -140,7 +140,7 @@ const uploadAvatar = async () => {
       avatarUrl.value = response.data.avatar_url;
     }
 
-    navigateTo("/");
+    navigateTo("/register-success");
   } catch (error) {
     console.error("Upload Error:", error);
     Swal.fire({
@@ -153,8 +153,6 @@ const uploadAvatar = async () => {
       timer: 3000,
       timerProgressBar: true,
     });
-
-    // Tetap gunakan avatar sebelumnya jika gagal upload
   }
 };
 
@@ -221,7 +219,9 @@ const triggerFileInput = () => {
         <div class="mb-3">
           <button
             @click="uploadAvatar"
-            class="block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-4 text-lg rounded-full"
+            :disabled="!selectedFile"
+            class="block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-4 text-lg rounded-full transition-all duration-300"
+            :class="{ 'opacity-50 cursor-not-allowed': !selectedFile }"
           >
             Sign Up Now
           </button>
