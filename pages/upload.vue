@@ -12,6 +12,9 @@ const config = useRuntimeConfig();
 const isAuthenticated = ref(false);
 const userData = ref(null);
 const loading = ref(true);
+const avatarUrl = ref("/avatar.jpg"); // Default avatar
+const fileInput = ref(null);
+const selectedFile = ref(null);
 
 const checkAuthStatus = async () => {
   loading.value = true;
@@ -37,6 +40,9 @@ const checkAuthStatus = async () => {
     if (response.data?.data) {
       isAuthenticated.value = true;
       userData.value = response.data.data;
+      if (userData.value.avatar_url) {
+        avatarUrl.value = userData.value.avatar_url;
+      }
     } else {
       isAuthenticated.value = false;
       userData.value = null;
@@ -52,12 +58,9 @@ const checkAuthStatus = async () => {
   }
 };
 
-const fileInput = ref(null);
-
-const uploadAvatar = async (event) => {
+const handleFileChange = (event) => {
   const file = event.target.files[0];
 
-  // Validasi tipe file
   if (!file || !["image/jpeg", "image/png"].includes(file.type)) {
     Swal.fire({
       icon: "error",
@@ -72,8 +75,28 @@ const uploadAvatar = async (event) => {
     return;
   }
 
+  // Simpan file untuk diunggah nanti
+  selectedFile.value = file;
+  avatarUrl.value = URL.createObjectURL(file);
+};
+
+const uploadAvatar = async () => {
+  if (!selectedFile.value) {
+    Swal.fire({
+      icon: "error",
+      title: "No File Selected",
+      text: "Please select an image before signing up.",
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+    return;
+  }
+
   const formData = new FormData();
-  formData.append("avatar", file);
+  formData.append("avatar", selectedFile.value);
 
   try {
     const token = localStorage.getItem("auth_token");
@@ -113,8 +136,11 @@ const uploadAvatar = async (event) => {
       timerProgressBar: true,
     });
 
+    if (response.data && response.data.avatar_url) {
+      avatarUrl.value = response.data.avatar_url;
+    }
+
     navigateTo("/");
-    console.log("Upload Success:", response.data);
   } catch (error) {
     console.error("Upload Error:", error);
     Swal.fire({
@@ -127,6 +153,8 @@ const uploadAvatar = async (event) => {
       timer: 3000,
       timerProgressBar: true,
     });
+
+    // Tetap gunakan avatar sebelumnya jika gagal upload
   }
 };
 
@@ -147,13 +175,14 @@ const triggerFileInput = () => {
           <!-- Avatar -->
           <a href="#" @click.prevent="triggerFileInput">
             <img
-              src="/avatar.jpg"
-              alt=""
+              v-if="avatarUrl"
+              :src="avatarUrl"
+              alt="User Avatar"
               class="rounded-full border-white border-4 cursor-pointer"
             />
             <img
               src="/icon-avatar-add.svg"
-              alt=""
+              alt="Add Avatar Icon"
               class="absolute right-0 bottom-0 pb-2 cursor-pointer"
             />
           </a>
@@ -163,26 +192,26 @@ const triggerFileInput = () => {
             type="file"
             accept="image/jpeg, image/png"
             class="hidden"
-            @change="uploadAvatar"
+            @change="handleFileChange"
           />
         </div>
       </div>
 
-      <!-- Cek apakah masih loading -->
+      <!-- Loading state -->
       <h2
         v-if="loading"
         class="font-normal mb-3 text-3xl text-white text-center"
       >
         Loading...
       </h2>
-      <!-- Cek apakah userData ada sebelum menampilkan nama -->
+      <!-- User name -->
       <h2
         v-else-if="userData?.name"
         class="font-normal mb-3 text-3xl text-white text-center"
       >
         {{ userData.name }}
       </h2>
-      <!-- Jika userData tidak ada -->
+      <!-- Default Unknown User -->
       <h2 v-else class="font-normal mb-3 text-3xl text-white text-center">
         Unknown User
       </h2>
@@ -191,7 +220,7 @@ const triggerFileInput = () => {
       <div class="mb-4 mt-6">
         <div class="mb-3">
           <button
-            @click="$router.push({ path: '/register-success' })"
+            @click="uploadAvatar"
             class="block w-full bg-orange-button hover:bg-green-button text-white font-semibold px-6 py-4 text-lg rounded-full"
           >
             Sign Up Now

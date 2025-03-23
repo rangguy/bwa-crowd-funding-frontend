@@ -1,3 +1,71 @@
+<script setup>
+import { ref } from "vue";
+import { useRuntimeConfig } from "#imports";
+import Swal from "sweetalert2";
+import axios from "axios";
+
+definePageMeta({
+  layout: "auth",
+});
+
+const config = useRuntimeConfig();
+
+const name = ref("");
+const email = ref("");
+const occupation = ref("");
+const password = ref("");
+
+const userRegister = async () => {
+  try {
+    const response = await axios.post(`${config.public.apiBase}/api/v1/users`, {
+      name: name.value,
+      email: email.value,
+      occupation: occupation.value,
+      password: password.value,
+    });
+
+    const token = response.data?.data?.token;
+
+    if (token) {
+      localStorage.setItem("auth_token", token);
+      console.log("berhasil store token ", token);
+
+      Swal.fire({
+        icon: "success",
+        title: "Register Successful!",
+        text: "Welcome!",
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+      });
+
+      navigateTo("/upload");
+    } else {
+      throw new Error("Invalid Register response. Token not found.");
+    }
+  } catch (error) {
+    console.error("Register Error:", error);
+
+    let errorMessage =
+      error?.response?.data?.errors ||
+      "Register failed. Please check your credentials and try again.";
+
+    Swal.fire({
+      icon: "error",
+      title: "Register Failed",
+      text: errorMessage,
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+    });
+  }
+};
+</script>
+
 <template>
   <div class="h-screen flex justify-center items-center">
     <div
@@ -91,74 +159,6 @@
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-import { useRuntimeConfig } from "#imports";
-import Swal from "sweetalert2";
-import axios from "axios";
-
-definePageMeta({
-  layout: "auth",
-});
-
-const config = useRuntimeConfig();
-
-const name = ref("");
-const email = ref("");
-const occupation = ref("");
-const password = ref("");
-
-const userRegister = async () => {
-  try {
-    const response = await axios.post(`${config.public.apiBase}/api/v1/users`, {
-      name: name.value,
-      email: email.value,
-      occupation: occupation.value,
-      password: password.value,
-    });
-
-    const token = response.data?.data?.token;
-
-    if (token) {
-      localStorage.setItem("auth_token", token);
-      console.log("berhasil store token ", token);
-
-      Swal.fire({
-        icon: "success",
-        title: "Register Successful!",
-        text: "Welcome!",
-        toast: true,
-        position: "top-end",
-        showConfirmButton: false,
-        timer: 3000,
-        timerProgressBar: true,
-      });
-
-      navigateTo("/upload");
-      console.log("sampe ke kode navigate to upload");
-    } else {
-      throw new Error("Invalid Register response. Token not found.");
-    }
-  } catch (error) {
-    console.error("Register Error:", error);
-
-    let errorMessage =
-      error?.response?.data?.errors ||
-      "Register failed. Please check your credentials and try again.";
-
-    Swal.fire({
-      icon: "error",
-      title: "Register Failed",
-      text: errorMessage,
-      toast: true,
-      position: "top-end",
-      showConfirmButton: false,
-      timer: 3000,
-      timerProgressBar: true,
-    });
-  }
-};
-</script>
 <style scoped>
 .auth-background {
   background-image: url("/sign-up-background.jpg");
