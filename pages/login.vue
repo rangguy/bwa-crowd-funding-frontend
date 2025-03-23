@@ -69,7 +69,6 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import { useRuntimeConfig } from "#imports";
 import Swal from "sweetalert2";
 import axios from "axios";
@@ -93,15 +92,10 @@ const userLogin = async () => {
       }
     );
 
-    console.log("Login API URL:", `${config.public.apiBase}/api/v1/sessions`);
-    console.log("Login Response:", response.data);
-
     const token = response.data?.data?.token;
 
     if (token) {
-      // Step 2: Store the token in localStorage
       localStorage.setItem("auth_token", token);
-      console.log("Token berhasil disimpan:", token);
 
       Swal.fire({
         icon: "success",
@@ -115,7 +109,6 @@ const userLogin = async () => {
       });
 
       navigateTo("/");
-      console.log("Navigasi ke halaman utama");
     } else {
       throw new Error("Invalid login response. Token not found.");
     }

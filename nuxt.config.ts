@@ -44,6 +44,12 @@ export default defineNuxtConfig({
       },
       session: {
         dataResponsePointer: "/data",
+        dataType: {
+          data: {
+            id: "number",
+            name: "string",
+          }
+        },
       },
       pages: {
         login: "/login",
