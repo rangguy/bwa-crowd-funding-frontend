@@ -1,3 +1,33 @@
+<script setup>
+const config = useRuntimeConfig();
+
+const { data: campaigns } = await useFetch(
+  `${config.public.apiBase}/api/v1/campaigns`
+);
+
+const getProgress = (campaign) => {
+  if (campaign.goal_amount === 0) return 0;
+  return ((campaign.current_amount / campaign.goal_amount) * 100).toFixed(2);
+};
+
+const formatCurrency = (amount) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    minimumFractionDigits: 0,
+  }).format(amount);
+};
+
+const getImageUrl = (imagePath) => {
+  return imagePath && imagePath.trim() !== ""
+    ? `${config.public.apiBase}/${imagePath}`
+    : `${config.public.apiBase}/images/default-image.jpg`;
+};
+
+// Debugging
+// console.log("Campaigns:", campaigns.value.data[0].image_url);
+</script>
+
 <template>
   <div class="landing-page">
     <section class="landing-hero pt-5 px-20">
@@ -192,33 +222,3 @@
     <Footer />
   </div>
 </template>
-
-<script setup>
-const config = useRuntimeConfig();
-
-const { data: campaigns } = await useFetch(
-  `${config.public.apiBase}/api/v1/campaigns`
-);
-
-const getProgress = (campaign) => {
-  if (campaign.goal_amount === 0) return 0;
-  return ((campaign.current_amount / campaign.goal_amount) * 100).toFixed(2);
-};
-
-const formatCurrency = (amount) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    minimumFractionDigits: 0,
-  }).format(amount);
-};
-
-const getImageUrl = (imagePath) => {
-  return imagePath && imagePath.trim() !== ""
-    ? `${config.public.apiBase}/${imagePath}`
-    : `${config.public.apiBase}/images/default-image.jpg`;
-};
-
-// Debugging
-// console.log("Campaigns:", campaigns.value.data[0].image_url);
-</script>
